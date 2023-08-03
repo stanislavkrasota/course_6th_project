@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:course_6th_project/models/place.dart';
 import 'package:course_6th_project/providers/place_provider.dart';
 import 'package:course_6th_project/widgets/image_input.dart';
+import 'package:course_6th_project/widgets/location_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -17,15 +18,23 @@ class NewPlaceScreen extends ConsumerStatefulWidget {
 class _NewPlaceScreenState extends ConsumerState<NewPlaceScreen> {
   final _titleController = TextEditingController();
   File? _selectedImage;
+  PlaceLocation? _selectedLocation;
 
   void _saveChanges() {
     final enteredTitle = _titleController.text;
     if (enteredTitle.trim().isEmpty || _selectedImage == null) {
       return;
     } else {
-      ref
-          .watch(userPlacesProvider.notifier)
-          .addplace(Place(title: enteredTitle, image: _selectedImage!));
+      // final locationAddress = 'Brooklyn+Bridge,New+York,NY';
+      // final lat = 40.718217;
+      // final lng = -73.998284;
+      ref.watch(userPlacesProvider.notifier).addplace(
+            Place(
+              title: enteredTitle,
+              image: _selectedImage!,
+              location: _selectedLocation!,
+            ),
+          );
       Navigator.pop(context);
     }
   }
@@ -60,6 +69,12 @@ class _NewPlaceScreenState extends ConsumerState<NewPlaceScreen> {
             ImageInput(
               onPickImage: (image) {
                 _selectedImage = image;
+              },
+            ),
+            const SizedBox(height: 20),
+            LocationInput(
+              onSelectLocation: (PlaceLocation loaction) {
+                _selectedLocation = loaction;
               },
             ),
             const SizedBox(height: 20),
