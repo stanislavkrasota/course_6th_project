@@ -28,13 +28,9 @@ class _NewPlaceScreenState extends ConsumerState<NewPlaceScreen> {
       // final locationAddress = 'Brooklyn+Bridge,New+York,NY';
       // final lat = 40.718217;
       // final lng = -73.998284;
-      ref.watch(userPlacesProvider.notifier).addplace(
-            Place(
-              title: enteredTitle,
-              image: _selectedImage!,
-              location: _selectedLocation!,
-            ),
-          );
+      ref
+          .watch(userPlacesProvider.notifier)
+          .addPlace(enteredTitle, _selectedImage, _selectedLocation);
       Navigator.pop(context);
     }
   }
